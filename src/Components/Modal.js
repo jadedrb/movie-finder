@@ -106,6 +106,7 @@ class Modal extends Component {
           </div>
           {!this.state.more ? buttons : more}
         </div>
+        <div className='extra-opacity'></div>
       </div>,
       this.el)
   }
