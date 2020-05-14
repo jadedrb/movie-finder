@@ -17,12 +17,13 @@ class Maybe extends Component {
     this.props.setData(linkMaybeCopy, 'linkMaybe')
   }
   render() {
-    let { maybe, quote } = this.props.data
+    let { maybe, quote, backupQuote } = this.props.data
+    let random = Math.floor(Math.random() * backupQuote.length)
     
     return (
       <div className='movie-list'>
         {maybe ? maybe.map((m, i) => <Movie key={i} data={m} getMovieInfo={this.props.getMovieInfo}/>) : ''}
-        {maybe.length === 0 ? <div className='quote'>{quote ? <div><span className='marks'>"</span>{quote[0].quote}<span className='marks'>"</span></div> : ''}</div> : ''}
+        {maybe.length === 0 ? <div className='quote'><div><span className='marks'>"</span>{quote? quote[0].quote : backupQuote[random]}<span className='marks'>"</span></div></div> : ''}
       </div>
     )
   }

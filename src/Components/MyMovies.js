@@ -18,12 +18,14 @@ class MyMovies extends Component {
     this.props.setData(linkWatchedCopy, 'linkWatched')
   }
   render() {
-    let { watched, quote } = this.props.data
+    let { watched, quote, backupQuote } = this.props.data
+    let random = Math.floor(Math.random() * backupQuote.length)
+
     return (
       <div className='movie-list'>
         {watched.length > 0 ? <Quiz data={watched} /> : ''}
         {watched ? watched.map((m, i) => <Movie key={i} data={m} getMovieInfo={this.props.getMovieInfo}/>) : ''}
-        {watched.length === 0 ? <div className='quote'>{quote ? <div><span className='marks'>"</span>{quote[0].quote}<span className='marks'>"</span></div> : ''}</div> : ''}
+        {watched.length === 0 ? <div className='quote'><div><span className='marks'>"</span>{quote? quote[0].quote : backupQuote[random]}<span className='marks'>"</span></div></div> : ''}
       </div>
     )
   }

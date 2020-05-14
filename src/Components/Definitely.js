@@ -17,11 +17,13 @@ class Definitely extends Component {
     this.props.setData(linkDefinitelyCopy, 'linkDefinitely')
   }
   render() {
-    let { definitely, quote } = this.props.data
+    let { definitely, quote, backupQuote } = this.props.data
+    let random = Math.floor(Math.random() * backupQuote.length)
+    
     return (
       <div className='movie-list'>
         {definitely ? definitely.map((m, i) => <Movie key={i} data={m} getMovieInfo={this.props.getMovieInfo}/>) : ''}
-        {definitely.length === 0 ? <div className='quote'>{quote ? <div><span className='marks'>"</span>{quote[0].quote}<span className='marks'>"</span></div> : ''}</div> : ''}
+        {definitely.length === 0 ? <div className='quote'><div><span className='marks'>"</span>{quote? quote[0].quote : backupQuote[random]}<span className='marks'>"</span></div></div> : ''}
       </div>
     )
   }
