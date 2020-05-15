@@ -14,8 +14,6 @@ class Movie extends Component {
     let fullPlot = '&plot=full'
     let fullUrl = 'https://www.omdbapi.com/?i=' + id + fullPlot + '&apikey=' + apiKey
     this.props.toggleModal('pending')
-    console.log(this.props)
-    console.log('^^')
     fetch(fullUrl)
       .then(response => response.json())
       .then(data => {

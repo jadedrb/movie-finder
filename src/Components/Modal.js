@@ -22,18 +22,29 @@ class Modal extends Component {
 
   moreInfo() { 
     this.setState({ more: !this.state.more }) 
-    setTimeout(() => this.windowHeightChange(), 10)
+    setTimeout(() => {
+      let modalInfoButtons = document.querySelector('.modal-info-buttons')
+      let modalSize = document.querySelector('.modal-info-container').offsetHeight
+      let check = window.innerHeight + 40 >= modalSize && modalSize < 456
+      if (!this.state.more && !check) modalInfoButtons.classList.add('temp')
+      this.windowHeightChange()
+    }, 10)
   }
 
   windowHeightChange() { 
     let modalSize = document.querySelector('.modal-info-container').offsetHeight
-
     if (window.innerHeight - 40 <= modalSize) document.querySelector('.modal-info-container').style.height = `${window.innerHeight - 40}px`
-    else if (window.innerHeight + 40 >= modalSize && modalSize < 456) document.querySelector('.modal-info-container').style.height = `${window.innerHeight + 40}px`
+    else if (window.innerHeight + 40 >= modalSize && modalSize < 456) document.querySelector('.modal-info-container').style.height = `${window.innerHeight - 40}px`
+
+    if (window.innerHeight < 456) document.querySelector('.modal-info-buttons').classList.remove('temp')
   }
 
   componentDidMount() {
     modal.appendChild(this.el)
+    let modalSize = document.querySelector('.modal-info-container').offsetHeight
+    let check = window.innerHeight < 456
+    if (!check) document.querySelector('.modal-info-buttons').classList.add('temp')
+    document.querySelector('.modal-info-container').style.height = '454px'
     window.addEventListener('resize', this.windowHeightChange)
     setTimeout(() => this.windowHeightChange(), 10)
   }

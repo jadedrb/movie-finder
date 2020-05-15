@@ -155,6 +155,11 @@ form {
   grid-column: 1fr;
   color: white;
 }
+.temp {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
 .bu {
   padding: 5px;
   border: 1px dotted grey;
