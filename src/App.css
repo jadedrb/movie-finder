@@ -384,6 +384,11 @@ form {
   width: 90%;
   overflow-wrap: break-word;
 }
+.date-cache {
+  width: 50%;
+  color: white;
+  border: 1px solid white;
+}
 
 @keyframes block {
   from {opacity: .1}

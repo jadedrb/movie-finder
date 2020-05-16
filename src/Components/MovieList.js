@@ -15,11 +15,22 @@ class MovieList extends Component {
     linkMovieCopy = 'white'
     this.props.setData(linkMovieCopy, 'linkMovie')
   }
+
   render() {
     let data = this.props.data
+
+    let moviesListed;
+    if (this.props.showDates.length) {
+      moviesListed = this.props.showDates.map((m, i) => <div className='date-cache' key={i}>{m.year} - {m.title}</div>)
+    } else if (data.hasOwnProperty('Search')) {
+      moviesListed = data.Search.filter(m => m.Poster !== 'N/A').map((m, i) => <Movie key={i} data={m} getMovieInfo={this.props.getMovieInfo}/>)
+    } else {
+      moviesListed = <div className='title-page'>Find new movies to watch. Randomly or otherwise.</div>
+    }
+
     return (
         <div className='movie-list'>
-          {data.hasOwnProperty('Search') ? data.Search.filter(m => m.Poster !== 'N/A').map((m, i) => <Movie key={i} data={m} getMovieInfo={this.props.getMovieInfo}/>) : <div className='title-page'>Find new movies to watch. Randomly or otherwise.</div>}
+          {moviesListed}
         </div>
     )
   }

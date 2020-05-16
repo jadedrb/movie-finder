@@ -12,7 +12,7 @@ class App extends Component {
 
   constructor() {
     super()
-    this.state = {color: 'white'}
+    this.state = {color: 'white', showDates: []}
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.randomPageFetch = this.randomPageFetch.bind(this)
@@ -30,6 +30,37 @@ class App extends Component {
       this.props.setData(value, 'title')
     } else {
       this.props.setData(value, 'year')
+
+      let dateCache = this.props.other.dateCache
+      if ((value.length >= 4) && (dateCache.hasOwnProperty(value) || value[value.length - 1] === 's')) {
+        this.props.setData([], 'data')
+        let moviesByDate = []
+        console.log(value[value.length - 1])
+        console.log(value[value.length - 2])
+        if (!isNaN(value.slice(0,4)) && value[value.length - 2] === '0' && value[value.length - 1] === 's') {
+          console.log('SS')
+          let years = Object.keys(dateCache).filter(y => y.slice(0,3) === value.slice(0,3))
+          for (let year of years) {
+            let movies = Object.keys(dateCache[year])
+            for (let movie of movies) {
+              moviesByDate.push(dateCache[year][movie])
+            }
+          }
+          this.setState({showDates: moviesByDate})
+          console.log(moviesByDate)
+        } else if (!isNaN(value.slice(0,4)) && value[value.length - 1] !== 's') {
+          let movies = Object.keys(dateCache[value])
+          for (let movie of movies) {
+            moviesByDate.push(dateCache[value][movie])
+          }
+          console.log(moviesByDate)
+          this.setState({showDates: moviesByDate})
+        }
+      } else {
+        console.log('ok')
+        this.setState({showDates: []})
+      }
+
     }
   }
 
@@ -64,6 +95,7 @@ class App extends Component {
     let apiKey = '3d7eed43'
     let movieType = '&type=movie'
     let year = ''
+    this.setState({showDates: []})
 
     if (this.props.other.year.length === 4 && !isNaN(year)) {
       year = '&y=' + this.props.other.year
@@ -309,7 +341,7 @@ class App extends Component {
             </nav>
             <Route exact path='/' render={() => inputArea}/>
             <Switch>
-              <Route exact path='/' render={() => <MovieList newQuote={this.quoteToFillTheSpace}/>} />
+              <Route exact path='/' render={() => <MovieList newQuote={this.quoteToFillTheSpace} showDates={this.state.showDates}/>} />
               <Route path='/Maybe' render={() => <Maybe newQuote={this.quoteToFillTheSpace}/>} />
               <Route path='/Definitely' render={() => <Definitely newQuote={this.quoteToFillTheSpace}/>} />
               <Route path='/Watched' render={() => <MyMovies newQuote={this.quoteToFillTheSpace}/> } />

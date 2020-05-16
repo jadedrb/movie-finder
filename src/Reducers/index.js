@@ -27,16 +27,35 @@ const initialState = {
   linkMovie: 'white',
   linkMaybe: 'white',
   linkDefinitely: 'white',
-  linkWatched: 'white'
+  linkWatched: 'white',
+  dateCache: {}
 }
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_DATA':
       let [data, property] = action.payload
+      let check = property === 'data' && state.data.hasOwnProperty('Search')
+      let cache;
+
+      if (check) {
+        let addToCache = [...state.data.Search]
+        cache = {...state.dateCache}
+        for (let movie of addToCache) {
+          let movieInfo = {title: movie.Title, id: movie.imdbID, year: movie.Year}
+          if (cache.hasOwnProperty(movie.Year)) {
+            if (cache[movie.Year].hasOwnProperty(movie.Title)) cache[movie.Year][movie.Title] = movieInfo
+            else cache[movie.Year] = {...cache[movie.Year], [movie.Title]: movieInfo}
+          } else {
+            cache[movie.Year] = { [movie.Title]: movieInfo }
+          }
+        }
+      }
+ 
       state = {
         ...state,
-        [property] : data
+        [property] : data,
+        dateCache: check ? cache : state.dateCache
       }
       break;
     case 'GET_MODAL_INFO':
