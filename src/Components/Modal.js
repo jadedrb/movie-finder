@@ -36,12 +36,13 @@ class Modal extends Component {
     if (window.innerHeight - 40 <= modalSize) document.querySelector('.modal-info-container').style.height = `${window.innerHeight - 40}px`
     else if (window.innerHeight + 40 >= modalSize && modalSize < 456) document.querySelector('.modal-info-container').style.height = `${window.innerHeight - 40}px`
 
-    if (window.innerHeight < 456) document.querySelector('.modal-info-buttons').classList.remove('temp')
+    if (window.innerHeight < 456 || window.innerWidth < 730) document.querySelector('.modal-info-buttons').classList.remove('temp')
   }
 
   componentDidMount() {
     modal.appendChild(this.el)
-    let check = window.innerHeight < 456
+    this.windowHeightChange()
+    let check = window.innerHeight < 456 || window.innerWidth < 730
     if (!check) document.querySelector('.modal-info-buttons').classList.add('temp')
     document.querySelector('.modal-info-container').style.height = '454px'
     window.addEventListener('resize', this.windowHeightChange)
