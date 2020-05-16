@@ -60,6 +60,7 @@ class App extends Component {
       }
 
     } else if (change === 'year' && this.state.yearOrRating === 'rating') {
+      this.props.setData(value, 'year')
       let ratingCache = this.props.other.ratingCache
       let moviesByRating = []
       console.log(ratingCache)
@@ -88,6 +89,7 @@ class App extends Component {
 
     } else if (change === 'year-or-rating') {
       console.log(change, value)
+      this.props.setData('', 'year')
       this.setState({yearOrRating: value})
     }
   }
@@ -339,7 +341,7 @@ class App extends Component {
               <option value='year'>Year:</option>
               <option value='rating'>Rating:</option>
             </select> 
-            <input type='text' name='year' onChange={this.handleChange} />
+            <input type='text' name='year' value={this.props.other.year} onChange={this.handleChange} />
           </label>
           {this.state.yearOrRating === 'year' ? <button>SEARCH</button> : ''}
         </form>
