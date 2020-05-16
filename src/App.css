@@ -388,6 +388,11 @@ form {
   width: 50%;
   color: white;
   border: 1px solid white;
+  cursor: pointer;
+}
+.date-cache:hover {
+  background: midnightblue;
+  color: grey;
 }
 
 @keyframes block {

@@ -19,6 +19,7 @@ class App extends Component {
     this.categorize = this.categorize.bind(this)
     this.quoteToFillTheSpace = this.quoteToFillTheSpace.bind(this)
     this.toggleHamburger = this.toggleHamburger.bind(this)
+    this.clearDates = this.clearDates.bind(this)
   }
 
   handleChange(e) {
@@ -63,6 +64,8 @@ class App extends Component {
 
     }
   }
+
+  clearDates() { this.setState({showDates: []}) }
 
   randomPageFetch(apiKey, specificPage, movieType, revert = true) {
     let fullUrl = 'https://www.omdbapi.com/?s=' + this.props.other.title + '&page=' + specificPage + movieType + '&apikey=' + apiKey
@@ -341,7 +344,7 @@ class App extends Component {
             </nav>
             <Route exact path='/' render={() => inputArea}/>
             <Switch>
-              <Route exact path='/' render={() => <MovieList newQuote={this.quoteToFillTheSpace} showDates={this.state.showDates}/>} />
+              <Route exact path='/' render={() => <MovieList newQuote={this.quoteToFillTheSpace} showDates={this.state.showDates} clearDates={this.clearDates}/>} />
               <Route path='/Maybe' render={() => <Maybe newQuote={this.quoteToFillTheSpace}/>} />
               <Route path='/Definitely' render={() => <Definitely newQuote={this.quoteToFillTheSpace}/>} />
               <Route path='/Watched' render={() => <MyMovies newQuote={this.quoteToFillTheSpace}/> } />

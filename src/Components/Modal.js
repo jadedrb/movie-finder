@@ -41,7 +41,6 @@ class Modal extends Component {
 
   componentDidMount() {
     modal.appendChild(this.el)
-    let modalSize = document.querySelector('.modal-info-container').offsetHeight
     let check = window.innerHeight < 456
     if (!check) document.querySelector('.modal-info-buttons').classList.add('temp')
     document.querySelector('.modal-info-container').style.height = '454px'

@@ -39,7 +39,8 @@ export const reducer = (state = initialState, action) => {
       let cache;
 
       if (check) {
-        let addToCache = [...state.data.Search]
+        let addToCache = [...state.data.Search].filter(m => m.Poster !== 'N/A')
+        console.log(addToCache)
         cache = {...state.dateCache}
         for (let movie of addToCache) {
           let movieInfo = {title: movie.Title, id: movie.imdbID, year: movie.Year}
