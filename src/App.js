@@ -12,7 +12,7 @@ class App extends Component {
 
   constructor() {
     super()
-    this.state = {color: 'white', showDates: []}
+    this.state = {color: 'white', showDates: [], yearOrRating: 'year'}
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.randomPageFetch = this.randomPageFetch.bind(this)
@@ -29,17 +29,14 @@ class App extends Component {
       this.props.setData(value, 'type')
     } else if (change === 'title') {
       this.props.setData(value, 'title')
-    } else {
+    } else if (change === 'year' && this.state.yearOrRating === 'year') {
       this.props.setData(value, 'year')
 
       let dateCache = this.props.other.dateCache
       if ((value.length >= 4) && (dateCache.hasOwnProperty(value) || value[value.length - 1] === 's')) {
         this.props.setData([], 'data')
         let moviesByDate = []
-        console.log(value[value.length - 1])
-        console.log(value[value.length - 2])
         if (!isNaN(value.slice(0,4)) && value[value.length - 2] === '0' && value[value.length - 1] === 's') {
-          console.log('SS')
           let years = Object.keys(dateCache).filter(y => y.slice(0,3) === value.slice(0,3))
           for (let year of years) {
             let movies = Object.keys(dateCache[year])
@@ -62,6 +59,36 @@ class App extends Component {
         this.setState({showDates: []})
       }
 
+    } else if (change === 'year' && this.state.yearOrRating === 'rating') {
+      let ratingCache = this.props.other.ratingCache
+      let moviesByRating = []
+      console.log(ratingCache)
+
+      if ((!isNaN(value.slice(0,1))) && ((value.length === 1) || (value[value.length - 1] === '+') || (value[value.length - 1] === '-'))) {
+        console.log('yepperrooo')
+        this.props.setData([], 'data')
+        if (value[value.length - 1] === '+' || value[value.length - 1] === '-') {
+          let ratings = value[value.length - 1] === '+' ? Object.keys(ratingCache).filter(r => r >= value.slice(0,1)) : Object.keys(ratingCache).filter(r => r <= value.slice(0,1))
+          for (let rating of ratings) {
+            let movies = Object.keys(ratingCache[rating])
+            for (let movie of movies) {
+              moviesByRating.push(ratingCache[rating][movie])
+            }
+          }
+        } else if (ratingCache.hasOwnProperty(value)) {
+          let movies = Object.keys(ratingCache[value])
+          for (let movie of movies) {
+            moviesByRating.push(ratingCache[value.slice(0,1)][movie])
+          }
+        }
+        console.log(moviesByRating)
+        moviesByRating.sort((a,b) => Number(b.rating) - Number(a.rating))
+        this.setState({showDates: moviesByRating})
+      }
+
+    } else if (change === 'year-or-rating') {
+      console.log(change, value)
+      this.setState({yearOrRating: value})
     }
   }
 
@@ -307,8 +334,14 @@ class App extends Component {
         </select>
         <form onSubmit={this.handleSubmit}>
           <label>Title: <input type='text' name='title' value={this.props.other.title} onChange={this.handleChange} /></label>
-          <label>Year: <input type='text' name='year' onChange={this.handleChange} /></label>
-          <button>SEARCH</button>
+          <label>
+            <select name='year-or-rating' onChange={this.handleChange}>
+              <option value='year'>Year:</option>
+              <option value='rating'>Rating:</option>
+            </select> 
+            <input type='text' name='year' onChange={this.handleChange} />
+          </label>
+          {this.state.yearOrRating === 'year' ? <button>SEARCH</button> : ''}
         </form>
       </div>
     )

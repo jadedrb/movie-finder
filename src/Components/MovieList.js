@@ -38,7 +38,7 @@ class MovieList extends Component {
 
     let moviesListed;
     if (this.props.showDates.length) {
-      moviesListed = this.props.showDates.map((m, i) => <div className='date-cache' key={i} onClick={() => this.handleDateCacheMovie(m.id)}>{m.year} - {m.title}</div>)
+      moviesListed = this.props.showDates.map((m, i) => <div className='date-cache' key={i} onClick={() => this.handleDateCacheMovie(m.id)}>{m.hasOwnProperty('rating') ? m.rating : m.year} - {m.title}</div>)
     } else if (data.hasOwnProperty('Search')) {
       moviesListed = data.Search.filter(m => m.Poster !== 'N/A').map((m, i) => <Movie key={i} data={m} getMovieInfo={this.props.getMovieInfo}/>)
     } else {

@@ -28,7 +28,8 @@ const initialState = {
   linkMaybe: 'white',
   linkDefinitely: 'white',
   linkWatched: 'white',
-  dateCache: {}
+  dateCache: {},
+  ratingCache: {}
 }
 
 export const reducer = (state = initialState, action) => {
@@ -39,6 +40,7 @@ export const reducer = (state = initialState, action) => {
       let cache;
 
       if (check) {
+        console.log('reduc')
         let addToCache = [...state.data.Search].filter(m => m.Poster !== 'N/A')
         console.log(addToCache)
         cache = {...state.dateCache}
@@ -60,9 +62,30 @@ export const reducer = (state = initialState, action) => {
       }
       break;
     case 'GET_MODAL_INFO':
+      let movie = action.payload
+      let rating, rCache;
+      let check2 = movie.hasOwnProperty('imdbRating')
+
+      if (check2) {
+        rating = {title: movie.Title, rating: movie.imdbRating, id: movie.imdbID}
+        let fRating = Math.floor(movie.imdbRating)
+        console.log(fRating)
+        rCache = {...state.ratingCache}
+        if (rCache.hasOwnProperty(fRating)) {
+          if (rCache[fRating].hasOwnProperty(movie.Title)) rCache[fRating][movie.Title] = rating
+          else rCache[fRating] = {...rCache[fRating], [movie.Title]: rating}
+        } else {
+          rCache[fRating] = { [movie.Title]: rating }
+        }
+      }
+
+      console.log(rating)
+      console.log(rCache)
+
       state = {
         ...state,
-        movieModal: action.payload
+        movieModal: action.payload,
+        ratingCache: check2 ? rCache : state.ratingCache
       }
       break;
     case 'TOGGLE_MODAL':
