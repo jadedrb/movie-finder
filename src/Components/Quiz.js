@@ -351,7 +351,7 @@ class Quiz extends Component {
             {option5 ? <li style={opFiveColor === 'default' ? clearColor : setColor(opFiveColor)} onClick={() => this.handleAnswer(option5[1][qProp], type, correctAnswer, 4)}>{option5[1][aProp]}</li> : ''}
           </ul>
           <div className='high-score'>{answerTotal ? `HIGHSCORE: ${answerTotal} CORRECT WITH ${movieTotal} MOVIES` : ''}</div>
-          <div className='question-block'>blocking questions</div>
+          <div className='question-block'></div>
         </div>
       )
     }

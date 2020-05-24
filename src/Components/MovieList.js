@@ -8,10 +8,12 @@ class MovieList extends Component {
     this.handleDateCacheMovie = this.handleDateCacheMovie.bind(this)
   }
   componentDidMount() {
-    let { linkMovie } = this.props.other
+    let { linkMovie, type } = this.props.other
     let linkMovieCopy = [...linkMovie]
     linkMovieCopy = 'midnightblue'
     this.props.setData(linkMovieCopy, 'linkMovie')
+    let selectDrop = document.getElementById('types')
+    selectDrop.value = type
   }
   componentWillUnmount() {
     let { linkMovie } = this.props.other

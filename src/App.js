@@ -329,7 +329,7 @@ class App extends Component {
 
     let inputArea = (
       <div className='inputs'>
-        <select name='type' onChange={this.handleChange}>
+        <select name='type' onChange={this.handleChange} id='types'>
           <option value='not-random'>Most Relevant</option>
           <option value='random-page'>Random Page Results (with your title)</option>
           <option value='random-movie'>Random Movies (with random title)</option>
