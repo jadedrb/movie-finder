@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getModalInfoAc, toggleModalAc } from '../Actions'
 
 class Movie extends Component {
 
@@ -33,25 +34,14 @@ class Movie extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    modal: state.modal,
-    movieModal: state.movieModal
-  }
-}
+const mapStateToProps = (state) => ({
+  modal: state.modal,
+  movieModal: state.movieModal
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getMovie: (data) => {
-      dispatch({
-        type: 'GET_MODAL_INFO',
-        payload: data
-      })
-    },
-    toggleModal: () => {
-      dispatch({type: 'TOGGLE_MODAL'})
-    }
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  getMovie: (data) => dispatch(getModalInfoAc(data)),
+  toggleModal: () => dispatch(toggleModalAc())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Movie);

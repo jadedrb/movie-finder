@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Movie from './Movie'
 import { connect } from 'react-redux';
+import { setDataAc } from '../Actions'
 
 class MovieList extends Component {
   constructor() {
@@ -55,23 +56,13 @@ class MovieList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    data: state.data,
-    other: state
-  }
-}
+const mapStateToProps = (state) => ({
+  data: state.data,
+  other: state
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setData: (data, prop) => {
-      dispatch({
-        type: 'SET_DATA',
-        payload: [data, prop]
-      })
-    }
-  }
-}
-
+const mapDispatchToProps = (dispatch) => ({
+  setData: (data, prop) => dispatch(setDataAc([data, prop]))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

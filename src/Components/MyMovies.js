@@ -31,11 +31,9 @@ class MyMovies extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    data: state
-  }
-}
+const mapStateToProps = (state) => ({
+  data: state
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {

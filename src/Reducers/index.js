@@ -38,6 +38,7 @@ export const reducer = (state = initialState, action) => {
       let [data, property] = action.payload
       let check = property === 'data' && state.data.hasOwnProperty('Search')
       let cache;
+      console.log(action.payload)
 
       if (check) {
         console.log('reduc')
@@ -60,6 +61,7 @@ export const reducer = (state = initialState, action) => {
         [property] : data,
         dateCache: check ? cache : state.dateCache
       }
+      console.log(property)
       break;
     case 'GET_MODAL_INFO':
       let movie = action.payload

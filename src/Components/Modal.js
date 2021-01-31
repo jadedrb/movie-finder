@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import { setDataAc, toggleModalAc } from '../Actions'
 
 const modal = document.getElementById('modal-root')
 
@@ -123,24 +124,13 @@ class Modal extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    data: state
-  }
-}
+const mapStateToProps = (state) => ({
+  data: state
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setData: (data) => {
-      dispatch({
-        type: 'SET_DATA',
-        payload: data
-      })
-    },
-    toggleModal: () => {
-      dispatch({type: 'TOGGLE_MODAL'})
-    }
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  setData: (data) => dispatch(setDataAc(data)),
+  toggleModal: () => dispatch(toggleModalAc())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

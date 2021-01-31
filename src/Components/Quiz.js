@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { setDataAc } from '../Actions'
 
 class Quiz extends Component {
   constructor(props) {
@@ -358,21 +359,12 @@ class Quiz extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    other: state
-  }
-}
+const mapStateToProps = (state) => ({
+  other: state
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setData: (data, prop) => {
-      dispatch({
-        type: 'SET_DATA',
-        payload: [data, prop]
-      })
-    }
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  setData: (data, prop) => dispatch(setDataAc([data, prop]))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quiz);

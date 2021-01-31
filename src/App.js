@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import './App.css';
+
 import MovieList from './Components/MovieList';
 import Maybe from './Components/Maybe.js';
 import Definitely from './Components/Definitely.js';
 import MyMovies from './Components/MyMovies';
 import Modal from './Components/Modal';
+
 import { connect } from 'react-redux';
+import { setDataAc, setChoicesAc, addInputAc } from './Actions'
 
 class App extends Component {
 
@@ -296,12 +299,14 @@ class App extends Component {
   }
 
   quoteToFillTheSpace() {
-    fetch('https://thesimpsonsquoteapi.glitch.me/quotes')
+    /* fetch('https://thesimpsonsquoteapi.glitch.me/quotes')
       .then(response => response.json())
       .then(data => {
         this.props.setData(data, 'quote')
         console.log(data)
       })
+      .catch(err => console.log(err))
+      */
   }
 
   toggleHamburger() { 
@@ -317,9 +322,9 @@ class App extends Component {
     fetch('https://random-word-api.herokuapp.com/all')
       .then(response => response.json())
       .then(data => {
-        let random = Math.floor(Math.random() * this.props.other.wordBank.length)
+        let random = Math.floor(Math.random() * data.length)
         this.props.setData(data, 'wordBank')
-        console.log(this.props.other.wordBank[random])
+        console.log(data[random])
       })
   }
 
@@ -393,37 +398,18 @@ class App extends Component {
 }
 
 /* Creates property keywords for the parts of state you need */
-const mapStateToProps = (state) => {
-  return {
-    data: state.data,
-    modal: state.modal,
-    other: state
-  }
-}
+const mapStateToProps = (state) => ({
+  data: state.data,
+  modal: state.modal,
+  other: state
+})
 
 /* Wraps the actions and their dispatch into a method */
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setData: (data, prop) => {
-      dispatch({
-        type: 'SET_DATA',
-        payload: [data, prop]
-      })
-    },
-    setChoices: (data) => {
-      dispatch({
-        type: 'SET_CHOICES',
-        payload: data
-      })
-    },
-    addInput: (input) => {
-      dispatch({
-        type: 'ADD_INPUT',
-        payload: input
-      })
-    }
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  setData: (data, prop) => dispatch(setDataAc([data, prop])),
+  setChoices: (data) => dispatch(setChoicesAc(data)),
+  addInput: (input) => dispatch(addInputAc(input))
+})
 
 /* connect tells react-redux to connect this component to the store */
 export default connect(mapStateToProps, mapDispatchToProps)(App);
