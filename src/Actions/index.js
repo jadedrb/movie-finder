@@ -26,3 +26,8 @@ export const getModalInfoAc = (data) => ({
     type: GET_MODAL_INFO,
     payload: data
 })
+
+export const TOGGLE_MODAL_LOADING = 'TOGGLE_MODAL_LOADING'
+export const toggleModalLoadingAc = () => ({
+    type: TOGGLE_MODAL_LOADING
+})

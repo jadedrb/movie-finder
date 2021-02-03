@@ -1,7 +1,10 @@
+import { ADD_INPUT, GET_MODAL_INFO, SET_CHOICES, SET_DATA, TOGGLE_MODAL, TOGGLE_MODAL_LOADING } from '../Actions'
+
 const initialState = {
   modal: false,
   movieModal: [],
   maybe: [],
+  modalLoading: false,
   definitely: [],
   watched: [],
   currentPage: '',
@@ -34,14 +37,12 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_DATA':
+    case SET_DATA:
       let [data, property] = action.payload
       let check = property === 'data' && state.data.hasOwnProperty('Search')
       let cache;
-      console.log(action.payload)
 
       if (check) {
-        console.log('reduc')
         let addToCache = [...state.data.Search].filter(m => m.Poster !== 'N/A')
         console.log(addToCache)
         cache = {...state.dateCache}
@@ -61,9 +62,9 @@ export const reducer = (state = initialState, action) => {
         [property] : data,
         dateCache: check ? cache : state.dateCache
       }
-      console.log(property)
+
       break;
-    case 'GET_MODAL_INFO':
+    case GET_MODAL_INFO:
       let movie = action.payload
       let rating, rCache;
       let check2 = movie.hasOwnProperty('imdbRating')
@@ -81,22 +82,26 @@ export const reducer = (state = initialState, action) => {
         }
       }
 
-      console.log(rating)
-      console.log(rCache)
-
       state = {
         ...state,
         movieModal: action.payload,
         ratingCache: check2 ? rCache : state.ratingCache
       }
       break;
-    case 'TOGGLE_MODAL':
+    case TOGGLE_MODAL:
       state = {
         ...state,
         modal: !state.modal
       }
       break;
-    case 'SET_CHOICES':
+    case TOGGLE_MODAL_LOADING:
+      console.log('modal loading...')
+      state = {
+        ...state,
+        modalLoading: !state.modalLoading
+      }
+      break;
+    case SET_CHOICES:
       let [ maybe, definitely, watched ] = action.payload
       state = {
         ...state,
@@ -105,7 +110,7 @@ export const reducer = (state = initialState, action) => {
         watched: watched
       }
       break;
-    case 'ADD_INPUT':
+    case ADD_INPUT:
       state = {
         ...state,
         currentPage: state.currentPage + action.payload

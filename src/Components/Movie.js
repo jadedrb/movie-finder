@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getModalInfoAc, toggleModalAc } from '../Actions'
+import { getModalInfoAc, toggleModalAc, toggleModalLoadingAc } from '../Actions'
 
 class Movie extends Component {
 
@@ -14,13 +14,20 @@ class Movie extends Component {
     let apiKey = '3d7eed43'
     let fullPlot = '&plot=full'
     let fullUrl = 'https://www.omdbapi.com/?i=' + id + fullPlot + '&apikey=' + apiKey
-    this.props.toggleModal('pending')
+    this.props.toggleModal()
+    this.props.toggleModalLoading()
     fetch(fullUrl)
       .then(response => response.json())
       .then(data => {
         this.props.getMovie(data)
+        this.props.toggleModalLoading()
         console.log(this.props)
         console.log('^^')
+      })
+      .catch(err => {
+        console.log(err)
+        this.props.toggleModal()
+        this.props.toggleModalLoading()
       })
   }
 
@@ -41,7 +48,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getMovie: (data) => dispatch(getModalInfoAc(data)),
-  toggleModal: () => dispatch(toggleModalAc())
+  toggleModal: () => dispatch(toggleModalAc()),
+  toggleModalLoading: () => dispatch(toggleModalLoadingAc())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Movie);

@@ -52,11 +52,13 @@ class Modal extends Component {
 
   componentWillUnmount() {
     modal.removeChild(this.el)
+    this.props.setData([ [], 'movieModal' ])
     window.removeEventListener('resize', this.windowHeightChange)
   }
 
   render() {
     let movie = this.props.data.movieModal
+    let isDataReady = this.props.data.modal
     let { maybe, definitely, watched } = this.props.data
 
     let buttons = (

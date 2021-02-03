@@ -391,7 +391,8 @@ class App extends Component {
             </Switch>
             <Route exact path='/' render={() => this.props.data.hasOwnProperty('Search') && this.props.data.Search.length > 0 ? pageScroll : ''}/>
           </Router>
-          {this.props.modal ? <Modal getMovieInfo={this.getMovieInfo} categorize={this.categorize} /> : ''}
+          {this.props.modal && !this.props.other.modalLoading ? <Modal getMovieInfo={this.getMovieInfo} categorize={this.categorize} /> : ''}
+          {this.props.other.modalLoading ? <div className='modal'><div className='loader'></div></div> : ''}
         </div>
     )
   }
