@@ -33,4 +33,4 @@ to install all the dependencies locally to your desktop
 
 ## Deployed Link 
 
-http://knowledgeable-powder.surge.sh/
+Check out [Movie Finder](http://knowledgeable-powder.surge.sh/)!
