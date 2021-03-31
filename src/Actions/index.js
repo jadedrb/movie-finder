@@ -17,7 +17,7 @@ export const setChoicesAc = (data) => ({
 
 export const ADD_INPUT = 'ADD_INPUT'
 export const addInputAc = (input) => ({
-    type: SET_CHOICES,
+    type: ADD_INPUT,
     payload: input
 })
 
