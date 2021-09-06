@@ -1,6 +1,7 @@
 import { ADD_INPUT, GET_MODAL_INFO, SET_CHOICES, SET_DATA, TOGGLE_MODAL, TOGGLE_MODAL_LOADING } from '../Actions'
 
 const initialState = {
+  user: '',
   modal: false,
   movieModal: [],
   maybe: [],
@@ -31,12 +32,14 @@ const initialState = {
   linkMaybe: 'white',
   linkDefinitely: 'white',
   linkWatched: 'white',
+  linkLogin: 'white',
   dateCache: {},
   ratingCache: {}
 }
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+    
     case SET_DATA:
       let [data, property] = action.payload
       let check = property === 'data' && state.data.hasOwnProperty('Search')
@@ -111,10 +114,12 @@ export const reducer = (state = initialState, action) => {
       }
       break;
     case ADD_INPUT:
+      console.log('add input in reducer')
       state = {
         ...state,
         currentPage: state.currentPage + action.payload
       }
+      console.log('after state change in reducer')
       break;
     default:
       break;

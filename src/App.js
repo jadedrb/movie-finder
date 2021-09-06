@@ -7,9 +7,12 @@ import Maybe from './Components/Maybe.js';
 import Definitely from './Components/Definitely.js';
 import MyMovies from './Components/MyMovies';
 import Modal from './Components/Modal';
+import Login from './Components/Login';
 
 import { connect } from 'react-redux';
 import { setDataAc, setChoicesAc, addInputAc } from './Actions'
+
+import { auth } from './firebase.js'
 
 class App extends Component {
 
@@ -319,6 +322,7 @@ class App extends Component {
 
   componentDidMount() {
     console.log('v1.05')
+    /*
     fetch('https://random-word-api.herokuapp.com/all')
       .then(response => response.json())
       .then(data => {
@@ -326,11 +330,22 @@ class App extends Component {
         this.props.setData(data, 'wordBank')
         console.log(data[random])
       })
+      */
+    auth
+      .onAuthStateChanged(user => {
+          if (user) {
+            this.props.setData(user.email, 'user')
+              console.log('user logged in: ', user)
+          } else {
+            this.props.setData('', 'user')
+              console.log('user logged out: ', user)
+          }
+      })
   }
 
   render() {
 
-    let { linkMovie, linkMaybe, linkDefinitely, linkWatched } = this.props.other
+    let { linkMovie, linkMaybe, linkDefinitely, linkWatched, linkLogin } = this.props.other
 
     let inputArea = (
       <div className='inputs'>
@@ -372,6 +387,7 @@ class App extends Component {
                 <Link style={{color: linkMaybe}} className='link' to="/Maybe" onClick={this.toggleHamburger}>Maybe</Link>
                 <Link style={{color: linkDefinitely}} className='link' to="/Definitely" onClick={this.toggleHamburger}>Definitely</Link>
                 <Link style={{color: linkWatched}} className='link' to="/Watched" onClick={this.toggleHamburger}>Watched</Link>
+                <Link style={{color: linkLogin}} className='link link-login' to={this.props.user ? "/Logout" : "/Login"} onClick={this.toggleHamburger}>{this.props.user ? "Logout" : "Login"}</Link>
               </div>
               <div id='menu-bar'>
                 <div id='menu' onClick={this.toggleHamburger}>
@@ -388,6 +404,7 @@ class App extends Component {
               <Route path='/Maybe' render={() => <Maybe newQuote={this.quoteToFillTheSpace}/>} />
               <Route path='/Definitely' render={() => <Definitely newQuote={this.quoteToFillTheSpace}/>} />
               <Route path='/Watched' render={() => <MyMovies newQuote={this.quoteToFillTheSpace}/> } />
+              <Route path={['/Login', '/Logout']} render={() => <Login /> } />
             </Switch>
             <Route exact path='/' render={() => this.props.data.hasOwnProperty('Search') && this.props.data.Search.length > 0 ? pageScroll : ''}/>
           </Router>
@@ -402,7 +419,8 @@ class App extends Component {
 const mapStateToProps = (state) => ({
   data: state.data,
   modal: state.modal,
-  other: state
+  other: state,
+  user: state.user
 })
 
 /* Wraps the actions and their dispatch into a method */

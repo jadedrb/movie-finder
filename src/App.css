@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
   background-color: midnightblue;
+  margin: 0;
 }
 .movie {
   position: relative;
